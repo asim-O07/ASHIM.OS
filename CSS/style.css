@@ -1559,5 +1559,134 @@ section {
     #space-background::before,
     #space-background::after {
         animation: none;
+       
+/* =========================================
+   ASIM.OS — INTERACTIVE MULTIVERSE PORTALS
+========================================= */
+
+.multiverse-portals {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.dimension-portal {
+    position: absolute;
+    width: clamp(170px, 24vw, 320px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+
+    display: grid;
+    place-items: center;
+
+    opacity: 0.55;
+    transition: opacity 0.5s ease;
+
+    will-change: transform;
+}
+
+.dimension-portal::before,
+.dimension-portal::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+}
+
+.dimension-portal::before {
+    border: 2px solid var(--portal-color);
+    box-shadow:
+        0 0 18px var(--portal-color),
+        inset 0 0 25px var(--portal-color);
+    animation: portal-spin 18s linear infinite;
+}
+
+.dimension-portal::after {
+    inset: 12%;
+    border: 1px dashed var(--portal-color);
+    opacity: 0.65;
+    animation: portal-spin 12s linear infinite reverse;
+}
+
+.portal-core {
+    width: 48%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+
+    background: radial-gradient(
+        circle,
+        var(--portal-color),
+        transparent 70%
+    );
+
+    filter: blur(12px);
+    opacity: 0.55;
+}
+
+.portal-alpha {
+    --portal-color: #00e5ff;
+    top: 12%;
+    left: 7%;
+}
+
+.portal-beta {
+    --portal-color: #995cff;
+    top: 42%;
+    right: 6%;
+}
+
+.portal-gamma {
+    --portal-color: #00ff9d;
+    bottom: 4%;
+    left: 36%;
+}
+
+.portal-label {
+    position: absolute;
+    top: 110%;
+    color: var(--portal-color);
+    font-family: var(--font-tech);
+    font-size: 9px;
+    letter-spacing: 3px;
+    white-space: nowrap;
+    text-shadow: 0 0 12px var(--portal-color);
+}
+
+@keyframes portal-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 700px) {
+    .dimension-portal {
+        width: 150px;
+        opacity: 0.3;
+    }
+
+    .portal-alpha {
+        top: 18%;
+        left: -50px;
+    }
+
+    .portal-beta {
+        top: 52%;
+        right: -55px;
+    }
+
+    .portal-gamma {
+        bottom: 5%;
+        left: 30%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dimension-portal::before,
+    .dimension-portal::after {
+        animation: none;
+    }
+}
+
     }
 }
