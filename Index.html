@@ -1,25 +1,26 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ASIM.OS // 8070 | Digital Universe</title>
-
-    <meta name="description" content="The digital universe of Asim Anurag — Developer, Technology Explorer and Creator.">
     <meta name="theme-color" content="#03050b">
+    <meta name="description" content="ASIM.OS // 8070 — A digital universe exploring AI, technology and creative development.">
+
+    <title>ASIM.OS // 8070 | Digital Universe</title>
 
     <!-- GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- THREE.JS -->
+    <!-- THREE.JS IMPORT MAP -->
     <script type="importmap">
     {
         "imports": {
@@ -27,30 +28,47 @@
         }
     }
     </script>
+
 </head>
 
 <body>
 
-    <!-- BACKGROUND -->
+    <!-- =====================================
+         BACKGROUND
+    ====================================== -->
+
     <div id="space-background"></div>
+
     <div class="noise-overlay"></div>
+
     <div class="cursor-glow"></div>
 
-    <!-- NAVIGATION -->
-    <header class="main-header">
+
+    <!-- =====================================
+         NAVIGATION
+    ====================================== -->
+
+    <header class="navbar">
 
         <a href="#home" class="logo">
-            <span class="logo-symbol">A</span>
-            <span>ASIM.OS <span class="blue">// 8070</span></span>
+            ASIM<span>.OS</span>
+            <small>// 8070</small>
         </a>
 
-        <nav class="navigation">
-            <a href="#home" class="nav-link active">Home</a>
-            <a href="#identity" class="nav-link">Identity</a>
-            <a href="#universe" class="nav-link">Universe</a>
-            <a href="#architecture" class="nav-link">Architecture</a>
-            <a href="#lab" class="nav-link">Lab</a>
-            <a href="#contact" class="nav-link">Contact</a>
+        <nav class="nav-links" aria-label="Main navigation">
+
+            <a href="#home" class="active">HOME</a>
+
+            <a href="#identity">IDENTITY</a>
+
+            <a href="#universe">UNIVERSE</a>
+
+            <a href="#architecture">WORK</a>
+
+            <a href="#lab">LAB</a>
+
+            <a href="#contact">CONTACT</a>
+
         </nav>
 
         <div class="system-status">
@@ -61,105 +79,185 @@
     </header>
 
 
-    <!-- MAIN WEBSITE -->
+    <!-- =====================================
+         MAIN CONTENT
+    ====================================== -->
+
     <main>
 
-        <!-- SECTION 01: HOME -->
-        <section id="home" class="hero-section">
+
+        <!-- =================================
+             01 — HERO
+        ================================== -->
+
+        <section class="hero" id="home">
 
             <div class="hero-content">
 
                 <div class="eyebrow">
-                    [ WELCOME TO MY DIGITAL UNIVERSE ]
+                    <span class="line"></span>
+                    DIGITAL IDENTITY SYSTEM
+                    <span class="line"></span>
                 </div>
 
-                <h1 class="hero-title">
-                    BEYOND
-                    <span class="outline-text">THE</span>
-                    <span class="gradient-text">ORDINARY.</span>
+                <p class="hero-small">
+                    WELCOME TO THE UNKNOWN
+                </p>
+
+                <h1>
+                    BEYOND THE
+                    <span>ORDINARY.</span>
                 </h1>
 
-                <div class="hero-description">
-                    <h3>I am Asim Anurag.</h3>
-
-                    <p>
-                        A Developer, Technology Explorer,<br>
-                        and Creator of Unexpected Digital Experiences.
-                    </p>
-                </div>
+                <p class="hero-description">
+                    I am building beyond boundaries.
+                    Exploring intelligence, technology,
+                    creativity and the future of digital systems.
+                </p>
 
                 <div class="hero-buttons">
 
-                    <a href="#universe" class="primary-button">
-                        ENTER THE UNIVERSE ↗
+                    <a href="#identity" class="btn btn-primary">
+                        EXPLORE SYSTEM
+                        <span>↗</span>
                     </a>
 
-                    <a href="#identity" class="secondary-button">
-                        DISCOVER MORE ↓
+                    <a href="#architecture" class="btn btn-secondary">
+                        VIEW MY WORK
                     </a>
 
                 </div>
 
             </div>
 
-            <!-- 3D CORE -->
-            <div class="hero-visual">
-                <canvas id="core-canvas"></canvas>
+
+            <!-- 3D ASIM CORE -->
+
+            <div class="core-container">
+
+                <canvas id="core-canvas" aria-label="Animated 3D ASIM core"></canvas>
+
+                <div class="core-label">
+                    <span>CORE_8070</span>
+                    <span>ACTIVE</span>
+                </div>
+
+                <div class="core-coordinate">
+                    X: 08.70
+                    <br>
+                    Y: 80.70
+                    <br>
+                    Z: INFINITY
+                </div>
+
             </div>
 
-            <!-- HUD -->
+
+            <!-- SYSTEM HUD -->
+
             <div class="hero-hud">
 
-                <div class="hud-label">ASIM CORE</div>
-
-                <div class="hud-active">
-                    <span class="status-dot"></span>
-                    ACTIVE
+                <div class="hud-item">
+                    <span>VERSION</span>
+                    <strong>8.070</strong>
                 </div>
 
-                <div class="hud-coordinates">
-                    X: 8070 | Y: 2026 | Z: ∞
+                <div class="hud-item">
+                    <span>STATUS</span>
+                    <strong>EVOLVING</strong>
+                </div>
+
+                <div class="hud-item">
+                    <span>MISSION</span>
+                    <strong>BUILD THE FUTURE</strong>
                 </div>
 
             </div>
+
+
+            <!-- SCROLL INDICATOR -->
 
             <a href="#identity" class="scroll-indicator">
-                <span class="scroll-icon">↓</span>
-                SCROLL DOWN
+                <span>SCROLL TO EXPLORE</span>
+                <span class="scroll-line"></span>
             </a>
 
-            <div class="hero-motto">
-                DREAM // CODE // INNOVATE
-            </div>
-
         </section>
 
 
-        <!-- SECTION 02: IDENTITY -->
-        <section id="identity" class="content-section identity-section">
 
-            <div class="section-number">01 / IDENTITY</div>
+        <!-- =================================
+             02 — IDENTITY
+        ================================== -->
 
-            <div class="section-content">
+        <section class="identity section" id="identity">
 
-                <p class="eyebrow">THE PERSON BEHIND THE SYSTEM</p>
+            <div class="section-heading">
+
+                <span class="section-number">
+                    01 / IDENTITY
+                </span>
 
                 <h2>
-                    NOT JUST A USER.<br>
-                    <span class="gradient-text">A CREATOR.</span>
+                    THE MIND
+                    <span>BEHIND THE SYSTEM.</span>
                 </h2>
 
-                <p class="section-description">
-                    I am a BCA student exploring the intersection of
-                    Artificial Intelligence, Data Science and technology.
-                    My journey is about learning, experimenting and
-                    building ideas into reality.
-                </p>
+            </div>
 
-                <div class="identity-tags">
-                    <span>DEVELOPER</span>
-                    <span>TECH EXPLORER</span>
-                    <span>AI ENTHUSIAST</span>
+
+            <div class="identity-grid">
+
+                <div class="identity-main">
+
+                    <span class="small-label">
+                        OPERATOR PROFILE
+                    </span>
+
+                    <h3>
+                        ASIM ANURAG
+                    </h3>
+
+                    <p>
+                        A BCA student specializing in AI and Data Science,
+                        interested in developing intelligent systems,
+                        futuristic interfaces and meaningful digital experiences.
+                    </p>
+
+                    <p>
+                        I believe technology is not just about writing code.
+                        It is about turning imagination into something real.
+                    </p>
+
+                </div>
+
+
+                <div class="identity-stats">
+
+                    <div class="stat-card">
+                        <span>01</span>
+                        <h3>AI</h3>
+                        <p>Artificial Intelligence</p>
+                    </div>
+
+                    <div class="stat-card">
+                        <span>02</span>
+                        <h3>DS</h3>
+                        <p>Data Science</p>
+                    </div>
+
+                    <div class="stat-card">
+                        <span>03</span>
+                        <h3>DEV</h3>
+                        <p>Creative Development</p>
+                    </div>
+
+                    <div class="stat-card">
+                        <span>04</span>
+                        <h3>8070</h3>
+                        <p>Future Vision</p>
+                    </div>
+
                 </div>
 
             </div>
@@ -167,27 +265,51 @@
         </section>
 
 
-        <!-- SECTION 03: DIGITAL UNIVERSE -->
-        <section id="universe" class="content-section universe-section">
 
-            <div class="section-number">02 / DIGITAL UNIVERSE</div>
+        <!-- =================================
+             03 — DIGITAL UNIVERSE
+        ================================== -->
 
-            <div class="section-content">
+        <section class="universe section" id="universe">
 
-                <p class="eyebrow">A WORLD WITHOUT LIMITS</p>
+            <div class="section-heading">
+
+                <span class="section-number">
+                    02 / DIGITAL UNIVERSE
+                </span>
 
                 <h2>
-                    EXPLORE THE<br>
-                    <span class="gradient-text">UNKNOWN.</span>
+                    EXPLORE THE
+                    <span>UNKNOWN.</span>
                 </h2>
 
-                <p class="section-description">
-                    Every idea begins somewhere. This is where creativity,
-                    technology and imagination come together.
+                <p>
+                    Every idea begins somewhere.
+                    This is where mine take shape.
                 </p>
 
-                <div class="universe-visual">
-                    <canvas id="universe-canvas"></canvas>
+            </div>
+
+
+            <div class="universe-container">
+
+                <canvas id="universe-canvas" aria-label="Animated 3D digital universe"></canvas>
+
+                <div class="universe-overlay">
+
+                    <span>UNIVERSE_8070</span>
+
+                    <h3>
+                        A WORLD
+                        <br>
+                        IN PROGRESS.
+                    </h3>
+
+                    <p>
+                        Ideas become experiments.
+                        Experiments become systems.
+                    </p>
+
                 </div>
 
             </div>
@@ -195,25 +317,53 @@
         </section>
 
 
-        <!-- SECTION 04: ARCHITECTURE -->
-        <section id="architecture" class="content-section architecture-section">
 
-            <div class="section-number">03 / ARCHITECTURE</div>
+        <!-- =================================
+             04 — ARCHITECTURE / PROJECTS
+        ================================== -->
 
-            <div class="section-content">
+        <section class="projects section" id="architecture">
 
-                <p class="eyebrow">PROJECTS AND CREATIONS</p>
+            <div class="section-heading">
+
+                <span class="section-number">
+                    03 / ARCHITECTURE
+                </span>
 
                 <h2>
-                    BUILT WITH<br>
-                    <span class="gradient-text">PURPOSE.</span>
+                    BUILT FROM
+                    <span>IMAGINATION.</span>
                 </h2>
 
-                <div class="project-grid">
+                <p>
+                    Projects, experiments and systems
+                    created along the journey.
+                </p>
 
-                    <article class="project-card">
+            </div>
 
-                        <span class="project-index">PROJECT_001</span>
+
+            <div class="project-grid">
+
+
+                <!-- PROJECT 001 -->
+
+                <article class="project-card">
+
+                    <div class="project-top">
+                        <span>PROJECT_001</span>
+                        <span class="project-status">LIVE</span>
+                    </div>
+
+                    <div class="project-visual oxy-visual">
+
+                        <div class="oxy-circle">O</div>
+
+                        <span>OXYNEURO</span>
+
+                    </div>
+
+                    <div class="project-info">
 
                         <h3>OXYNEURO</h3>
 
@@ -222,132 +372,258 @@
                             built to explore intelligent interaction.
                         </p>
 
-                        <a href="https://oxyneuro-hvscl6hqw-oxy7.vercel.app/" target="_blank" rel="noopener noreferrer">
+                        <div class="project-tags">
+                            <span>AI</span>
+                            <span>GEMINI</span>
+                            <span>WEB</span>
+                        </div>
+
+                        <a
+                            href="https://oxyneuro-hvscl6hqw-oxy7.vercel.app/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="project-link"
+                        >
                             EXPLORE PROJECT ↗
                         </a>
 
-                    </article>
+                    </div>
+
+                </article>
 
 
-                    <article class="project-card">
 
-                        <span class="project-index">PROJECT_002</span>
+                <!-- PROJECT 002 -->
 
-                        <h3>ASIM.OS</h3>
+                <article class="project-card">
+
+                    <div class="project-top">
+                        <span>PROJECT_002</span>
+                        <span class="project-status">DEVELOPING</span>
+                    </div>
+
+                    <div class="project-visual">
+
+                        <div class="visual-grid"></div>
+
+                        <span>ASIM.OS</span>
+
+                    </div>
+
+                    <div class="project-info">
+
+                        <h3>ASIM.OS // 8070</h3>
 
                         <p>
-                            An evolving futuristic portfolio and
-                            interactive digital experience.
+                            A futuristic personal portfolio
+                            evolving into an immersive digital experience.
                         </p>
 
-                        <a href="#home">
-                            SYSTEM IN DEVELOPMENT ↗
+                        <div class="project-tags">
+                            <span>THREE.JS</span>
+                            <span>HTML</span>
+                            <span>CSS</span>
+                        </div>
+
+                        <a href="#home" class="project-link">
+                            EXPLORE SYSTEM ↗
                         </a>
 
-                    </article>
+                    </div>
+
+                </article>
 
 
-                    <article class="project-card">
 
-                        <span class="project-index">PROJECT_003</span>
+                <!-- PROJECT 003 -->
 
-                        <h3>FUTURE LAB</h3>
+                <article class="project-card">
+
+                    <div class="project-top">
+                        <span>PROJECT_003</span>
+                        <span class="project-status">UPCOMING</span>
+                    </div>
+
+                    <div class="project-visual">
+
+                        <div class="future-symbol">∞</div>
+
+                        <span>UNKNOWN SYSTEM</span>
+
+                    </div>
+
+                    <div class="project-info">
+
+                        <h3>FUTURE PROJECT</h3>
 
                         <p>
-                            A space for experiments, concepts,
-                            prototypes and unexpected ideas.
+                            New experiments, intelligent tools
+                            and unexplored ideas will appear here.
                         </p>
 
-                        <a href="#lab">
-                            ENTER LAB ↗
+                        <div class="project-tags">
+                            <span>RESEARCH</span>
+                            <span>EXPERIMENT</span>
+                        </div>
+
+                        <a href="#contact" class="project-link">
+                            STAY CONNECTED ↗
                         </a>
 
-                    </article>
+                    </div>
 
-                </div>
+                </article>
+
 
             </div>
 
         </section>
 
 
-        <!-- SECTION 05: FUTURE LAB -->
-        <section id="lab" class="content-section lab-section">
 
-            <div class="section-number">04 / FUTURE LAB</div>
+        <!-- =================================
+             05 — LAB / SKILLS
+        ================================== -->
 
-            <div class="section-content">
+        <section class="skills section" id="lab">
 
-                <p class="eyebrow">CURRENTLY LEARNING AND EXPLORING</p>
+            <div class="section-heading">
+
+                <span class="section-number">
+                    04 / THE LAB
+                </span>
 
                 <h2>
-                    THE NEXT<br>
-                    <span class="gradient-text">EVOLUTION.</span>
+                    LEARNING.
+                    <span>BUILDING. EVOLVING.</span>
                 </h2>
 
-                <div class="skills-grid">
+                <p>
+                    Technologies and skills I am exploring
+                    as I build the next version of myself.
+                </p>
 
-                    <div class="skill-item">C PROGRAMMING</div>
-                    <div class="skill-item">HTML & CSS</div>
-                    <div class="skill-item">JAVASCRIPT</div>
-                    <div class="skill-item">ARTIFICIAL INTELLIGENCE</div>
-                    <div class="skill-item">DATA SCIENCE</div>
-                    <div class="skill-item">3D WEB</div>
+            </div>
 
+
+            <div class="skills-grid">
+
+                <div class="skill-card">
+                    <span>01</span>
+                    <h3>PROGRAMMING</h3>
+                    <p>C · HTML · CSS · JavaScript</p>
                 </div>
+
+                <div class="skill-card">
+                    <span>02</span>
+                    <h3>INTELLIGENCE</h3>
+                    <p>AI · Machine Learning · Gemini API</p>
+                </div>
+
+                <div class="skill-card">
+                    <span>03</span>
+                    <h3>DESIGN</h3>
+                    <p>UI · UX · 3D Interfaces</p>
+                </div>
+
+                <div class="skill-card">
+                    <span>04</span>
+                    <h3>EXPLORATION</h3>
+                    <p>New technologies · Experiments</p>
+                </div>
+
+            </div>
+
+
+            <div class="lab-message">
+
+                <span class="status-dot"></span>
+
+                <p>
+                    SYSTEM UNDER CONTINUOUS DEVELOPMENT.
+                </p>
 
             </div>
 
         </section>
 
 
-        <!-- SECTION 06: CONTACT -->
-        <section id="contact" class="content-section contact-section">
 
-            <div class="section-number">05 / CONNECTION ESTABLISHED</div>
+        <!-- =================================
+             06 — CONTACT
+        ================================== -->
 
-            <div class="section-content">
+        <section class="contact section" id="contact">
 
-                <p class="eyebrow">EVERYTHING STARTS WITH AN IDEA</p>
+            <div class="contact-content">
+
+                <span class="section-number">
+                    05 / CONNECTION TERMINAL
+                </span>
 
                 <h2>
-                    LET'S BUILD<br>
-                    <span class="gradient-text">SOMETHING UNEXPECTED.</span>
+                    LET'S BUILD
+                    <span>SOMETHING UNEXPECTED.</span>
                 </h2>
 
-                <p class="section-description">
-                    Have an idea, a project or a vision?
+                <p>
+                    Have an idea, project or opportunity?
                     Let's connect and create something meaningful.
                 </p>
 
-                <a href="mailto:your-email@example.com" class="primary-button">
-                    INITIATE CONTACT ↗
+                <a
+                    href="mailto:your-email@example.com"
+                    class="btn btn-primary"
+                >
+                    INITIATE CONNECTION ↗
                 </a>
 
             </div>
 
+
+            <div class="contact-orb">
+
+                <div class="orb-ring"></div>
+
+                <div class="orb-ring ring-two"></div>
+
+                <div class="orb-center"></div>
+
+            </div>
+
         </section>
+
 
     </main>
 
 
-    <!-- FOOTER -->
-    <footer class="main-footer">
+
+    <!-- =====================================
+         FOOTER
+    ====================================== -->
+
+    <footer class="footer">
 
         <div class="footer-logo">
-            ASIM.OS <span class="blue">// 8070</span>
+            ASIM.OS <span>// 8070</span>
         </div>
 
-        <p>DREAM // CODE // INNOVATE</p>
-
-        <p class="copyright">
-            © 2026 ASIM.OS. ALL SYSTEMS RESERVED.
+        <p>
+            DESIGNED TO EVOLVE. BUILT TO EXPLORE.
         </p>
+
+        <span class="footer-copy">
+            © 2026 ASIM.OS — ALL SYSTEMS EVOLVING.
+        </span>
 
     </footer>
 
 
-    <!-- JAVASCRIPT -->
+
+    <!-- =====================================
+         JAVASCRIPT ENGINE
+    ====================================== -->
+
     <script type="module" src="script.js"></script>
 
 </body>
