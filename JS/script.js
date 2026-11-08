@@ -1,464 +1,645 @@
 
+/* =====================================================
+   ASIM.OS // 8070
+   DIGITAL UNIVERSE — MAIN SYSTEM ENGINE
+===================================================== */
+
 import * as THREE from "three";
 
-/* =====================================
-   ASIM.OS // 8070
-   MAIN SYSTEM ENGINE
-===================================== */
+/* =====================================================
+   01. CONFIGURATION
+===================================================== */
 
 const CONFIG = {
-  starCount: 1800,
-  coreColor: 0x00e5ff,
-  planetColors: [0x00e5ff, 0x8b5cf6, 0x2563eb]
+    starCount: 1800,
+    coreColor: 0x00e5ff,
+    planetColors: [
+        0x00e5ff,
+        0x9165ff,
+        0x1677ff
+    ],
+    maxPixelRatio: 2
 };
 
-const prefersReducedMotion = window.matchMedia(
-  "(prefers-reduced-motion: reduce)"
+const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
 ).matches;
 
-/* =====================================
-   1. STARFIELD BACKGROUND
-===================================== */
+const isMobile = window.matchMedia(
+    "(max-width: 700px)"
+).matches;
+
+
+/* =====================================================
+   02. SHARED HELPERS
+===================================================== */
+
+function createRenderer(canvas, options = {}) {
+    const renderer = new THREE.WebGLRenderer({
+        canvas,
+        alpha: true,
+        antialias: !isMobile,
+        powerPreference: "high-performance",
+        ...options
+    });
+
+    renderer.setPixelRatio(
+        Math.min(window.devicePixelRatio || 1, CONFIG.maxPixelRatio)
+    );
+
+    return renderer;
+}
+
+function resizeScene(canvas, camera, renderer) {
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
+
+    if (!width || !height) return;
+
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(width, height, false);
+}
+
+function watchResize(canvas, camera, renderer) {
+    if ("ResizeObserver" in window) {
+        const observer = new ResizeObserver(() => {
+            resizeScene(canvas, camera, renderer);
+        });
+
+        observer.observe(canvas);
+        return observer;
+    }
+
+    window.addEventListener("resize", () => {
+        resizeScene(canvas, camera, renderer);
+    });
+}
+
+
+/* =====================================================
+   03. BACKGROUND STARFIELD
+===================================================== */
 
 function createStarfield() {
-  const container = document.querySelector("#space-background");
-  if (!container) return;
+    const container = document.querySelector("#space-background");
 
-  const scene = new THREE.Scene();
+    if (!container) return;
 
-  const camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-  );
+    const scene = new THREE.Scene();
 
-  camera.position.z = 5;
+    const camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+    );
 
-  const renderer = new THREE.WebGLRenderer({
-    alpha: true,
-    antialias: true
-  });
+    camera.position.z = 5;
 
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  container.appendChild(renderer.domElement);
+    const renderer = createRenderer(null, {
+        antialias: false
+    });
 
-  const geometry = new THREE.BufferGeometry();
-  const positions = new Float32Array(CONFIG.starCount * 3);
+    renderer.setSize(window.innerWidth, window.innerHeight);
 
-  for (let i = 0; i < CONFIG.starCount * 3; i += 3) {
-    positions[i] = (Math.random() - 0.5) * 100;
-    positions[i + 1] = (Math.random() - 0.5) * 100;
-    positions[i + 2] = (Math.random() - 0.5) * 100;
-  }
+    container.appendChild(renderer.domElement);
 
-  geometry.setAttribute(
-    "position",
-    new THREE.BufferAttribute(positions, 3)
-  );
+    const positions = new Float32Array(CONFIG.starCount * 3);
 
-  const material = new THREE.PointsMaterial({
-    color: 0x8bdcff,
-    size: 0.055,
-    transparent: true,
-    opacity: 0.8
-  });
-
-  const stars = new THREE.Points(geometry, material);
-  scene.add(stars);
-
-  function animate() {
-    requestAnimationFrame(animate);
-
-    if (!prefersReducedMotion) {
-      stars.rotation.y += 0.00015;
-      stars.rotation.x += 0.00008;
+    for (let i = 0; i < CONFIG.starCount; i++) {
+        positions[i * 3] = (Math.random() - 0.5) * 100;
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 100;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 100;
     }
 
-    renderer.render(scene, camera);
-  }
+    const geometry = new THREE.BufferGeometry();
 
-  animate();
+    geometry.setAttribute(
+        "position",
+        new THREE.BufferAttribute(positions, 3)
+    );
 
-  window.addEventListener("resize", () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  });
+    const material = new THREE.PointsMaterial({
+        color: 0x9bdcff,
+        size: isMobile ? 0.07 : 0.055,
+        transparent: true,
+        opacity: 0.8,
+        sizeAttenuation: true
+    });
+
+    const stars = new THREE.Points(geometry, material);
+
+    scene.add(stars);
+
+    function animate() {
+        requestAnimationFrame(animate);
+
+        if (!reducedMotion) {
+            stars.rotation.y += 0.00015;
+            stars.rotation.x += 0.00006;
+        }
+
+        renderer.render(scene, camera);
+    }
+
+    animate();
+
+    window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(
+            window.innerWidth,
+            window.innerHeight
+        );
+    });
 }
 
-/* =====================================
-   2. ASIM CORE - 3D OBJECT
-===================================== */
+
+/* =====================================================
+   04. ASIM CORE — 3D ENGINE
+===================================================== */
 
 function createCore() {
-  const canvas = document.querySelector("#core-canvas");
-  if (!canvas) return;
+    const canvas = document.querySelector("#core-canvas");
 
-  const scene = new THREE.Scene();
+    if (!canvas) return;
 
-  const camera = new THREE.PerspectiveCamera(
-    45,
-    canvas.clientWidth / Math.max(canvas.clientHeight, 1),
-    0.1,
-    100
-  );
+    const scene = new THREE.Scene();
 
-  camera.position.z = 6;
-
-  const renderer = new THREE.WebGLRenderer({
-    canvas,
-    alpha: true,
-    antialias: true
-  });
-
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-
-  // Core geometry
-  const coreGeometry = new THREE.IcosahedronGeometry(1.4, 2);
-
-  const coreMaterial = new THREE.MeshStandardMaterial({
-    color: CONFIG.coreColor,
-    wireframe: true,
-    emissive: 0x007caa,
-    emissiveIntensity: 1.5
-  });
-
-  const core = new THREE.Mesh(coreGeometry, coreMaterial);
-  scene.add(core);
-
-  // Outer rings
-  const ringGroup = new THREE.Group();
-
-  for (let i = 0; i < 3; i++) {
-    const ringGeometry = new THREE.TorusGeometry(
-      1.9 + i * 0.25,
-      0.008,
-      8,
-      120
+    const camera = new THREE.PerspectiveCamera(
+        45,
+        1,
+        0.1,
+        100
     );
 
-    const ringMaterial = new THREE.MeshBasicMaterial({
-      color: i === 1 ? 0x8b5cf6 : 0x00e5ff,
-      transparent: true,
-      opacity: 0.7
+    camera.position.set(0, 0, 6);
+
+    const renderer = createRenderer(canvas);
+
+    const geometry = new THREE.IcosahedronGeometry(1.35, 2);
+
+    const material = new THREE.MeshStandardMaterial({
+        color: CONFIG.coreColor,
+        wireframe: true,
+        emissive: 0x007caa,
+        emissiveIntensity: 1.5
     });
 
-    const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+    const core = new THREE.Mesh(geometry, material);
 
-    ring.rotation.x = Math.PI / 2 + i * 0.5;
-    ring.rotation.y = i * 0.7;
+    scene.add(core);
 
-    ringGroup.add(ring);
-  }
 
-  scene.add(ringGroup);
+    // Outer orbital rings
 
-  // Central light
-  const light = new THREE.PointLight(0x00d9ff, 25, 15);
-  light.position.set(0, 0, 3);
-  scene.add(light);
+    const ringGroup = new THREE.Group();
 
-  scene.add(new THREE.AmbientLight(0xffffff, 1.2));
+    for (let i = 0; i < 3; i++) {
+        const ringGeometry = new THREE.TorusGeometry(
+            1.8 + i * 0.28,
+            0.009,
+            8,
+            120
+        );
 
-  function animate() {
-    requestAnimationFrame(animate);
+        const ringMaterial = new THREE.MeshBasicMaterial({
+            color: i === 1 ? 0x9165ff : 0x00e5ff,
+            transparent: true,
+            opacity: 0.7
+        });
 
-    if (!prefersReducedMotion) {
-      core.rotation.x += 0.002;
-      core.rotation.y += 0.004;
+        const ring = new THREE.Mesh(
+            ringGeometry,
+            ringMaterial
+        );
 
-      ringGroup.rotation.y += 0.002;
-      ringGroup.rotation.x += 0.001;
+        ring.rotation.x = Math.PI / 2 + i * 0.45;
+        ring.rotation.y = i * 0.65;
+
+        ringGroup.add(ring);
     }
 
-    renderer.render(scene, camera);
-  }
+    scene.add(ringGroup);
 
-  animate();
 
-  new ResizeObserver(() => {
-    const width = canvas.clientWidth;
-    const height = Math.max(canvas.clientHeight, 1);
+    // Core lighting
 
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-    renderer.setSize(width, height);
-  }).observe(canvas);
+    const coreLight = new THREE.PointLight(
+        0x00dfff,
+        30,
+        15
+    );
+
+    coreLight.position.set(0, 0, 3);
+
+    scene.add(coreLight);
+
+    scene.add(
+        new THREE.AmbientLight(0xffffff, 1.2)
+    );
+
+
+    // Mouse interaction
+
+    let targetX = 0;
+    let targetY = 0;
+
+    if (!isMobile) {
+        window.addEventListener("mousemove", (event) => {
+            targetX = (event.clientX / window.innerWidth - 0.5) * 0.5;
+            targetY = (event.clientY / window.innerHeight - 0.5) * 0.5;
+        });
+    }
+
+
+    // Animation
+
+    function animate() {
+        requestAnimationFrame(animate);
+
+        if (!reducedMotion) {
+            core.rotation.x += 0.002;
+            core.rotation.y += 0.004;
+
+            ringGroup.rotation.y += 0.002;
+            ringGroup.rotation.x += 0.001;
+
+            core.rotation.x += (targetY - core.rotation.x) * 0.01;
+            core.rotation.y += (targetX - core.rotation.y) * 0.01;
+        }
+
+        renderer.render(scene, camera);
+    }
+
+    resizeScene(canvas, camera, renderer);
+    watchResize(canvas, camera, renderer);
+
+    animate();
 }
 
-/* =====================================
-   3. DIGITAL UNIVERSE
-===================================== */
+
+/* =====================================================
+   05. DIGITAL UNIVERSE — PLANET SYSTEM
+===================================================== */
 
 function createUniverse() {
-  const canvas = document.querySelector("#universe-canvas");
-  if (!canvas) return;
+    const canvas = document.querySelector("#universe-canvas");
 
-  const scene = new THREE.Scene();
+    if (!canvas) return;
 
-  const camera = new THREE.PerspectiveCamera(
-    50,
-    canvas.clientWidth / Math.max(canvas.clientHeight, 1),
-    0.1,
-    100
-  );
+    const scene = new THREE.Scene();
 
-  camera.position.set(0, 3, 10);
-  camera.lookAt(0, 0, 0);
-
-  const renderer = new THREE.WebGLRenderer({
-    canvas,
-    alpha: true,
-    antialias: true
-  });
-
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-
-  const galaxy = new THREE.Group();
-  scene.add(galaxy);
-
-  // Central planet
-  const sunGeometry = new THREE.SphereGeometry(0.8, 48, 48);
-
-  const sunMaterial = new THREE.MeshBasicMaterial({
-    color: 0x00cfff,
-    wireframe: true
-  });
-
-  const sun = new THREE.Mesh(sunGeometry, sunMaterial);
-  galaxy.add(sun);
-
-  // Orbiting planets
-  const planets = [];
-
-  CONFIG.planetColors.forEach((color, index) => {
-    const orbit = new THREE.Group();
-
-    const radius = 2 + index * 0.85;
-
-    const planetGeometry = new THREE.SphereGeometry(
-      0.18 + index * 0.06,
-      24,
-      24
+    const camera = new THREE.PerspectiveCamera(
+        50,
+        1,
+        0.1,
+        100
     );
 
-    const planetMaterial = new THREE.MeshStandardMaterial({
-      color,
-      emissive: color,
-      emissiveIntensity: 0.7,
-      wireframe: true
+    camera.position.set(0, 3, 10);
+    camera.lookAt(0, 0, 0);
+
+    const renderer = createRenderer(canvas);
+
+    const galaxy = new THREE.Group();
+
+    scene.add(galaxy);
+
+
+    // Central planet
+
+    const sunGeometry = new THREE.SphereGeometry(
+        0.8,
+        48,
+        48
+    );
+
+    const sunMaterial = new THREE.MeshBasicMaterial({
+        color: 0x00cfff,
+        wireframe: true
     });
 
-    const planet = new THREE.Mesh(
-      planetGeometry,
-      planetMaterial
+    const sun = new THREE.Mesh(
+        sunGeometry,
+        sunMaterial
     );
 
-    planet.position.x = radius;
+    galaxy.add(sun);
 
-    orbit.add(planet);
-    galaxy.add(orbit);
 
-    planets.push(orbit);
+    // Central glow
 
-    // Orbit path
-    const orbitPath = new THREE.Mesh(
-      new THREE.TorusGeometry(radius, 0.006, 8, 120),
-      new THREE.MeshBasicMaterial({
-        color,
-        transparent: true,
-        opacity: 0.35
-      })
+    const glowLight = new THREE.PointLight(
+        0x00cfff,
+        25,
+        20
     );
 
-    orbitPath.rotation.x = Math.PI / 2;
-    galaxy.add(orbitPath);
-  });
+    galaxy.add(glowLight);
 
-  scene.add(new THREE.AmbientLight(0xffffff, 1.5));
 
-  function animate() {
-    requestAnimationFrame(animate);
+    // Orbiting planets
 
-    if (!prefersReducedMotion) {
-      sun.rotation.y += 0.003;
+    const planets = [];
 
-      planets.forEach((planet, index) => {
-        planet.rotation.y += 0.003 + index * 0.001;
-      });
+    CONFIG.planetColors.forEach((color, index) => {
+        const orbit = new THREE.Group();
 
-      galaxy.rotation.y += 0.001;
+        const radius = 2 + index * 0.85;
+
+        const planetGeometry = new THREE.SphereGeometry(
+            0.18 + index * 0.06,
+            24,
+            24
+        );
+
+        const planetMaterial = new THREE.MeshStandardMaterial({
+            color,
+            emissive: color,
+            emissiveIntensity: 0.8,
+            wireframe: true
+        });
+
+        const planet = new THREE.Mesh(
+            planetGeometry,
+            planetMaterial
+        );
+
+        planet.position.x = radius;
+
+        orbit.add(planet);
+
+        galaxy.add(orbit);
+
+        planets.push({
+            orbit,
+            planet,
+            speed: 0.003 + index * 0.001
+        });
+
+
+        // Orbit path
+
+        const orbitPath = new THREE.Mesh(
+            new THREE.TorusGeometry(
+                radius,
+                0.007,
+                8,
+                120
+            ),
+            new THREE.MeshBasicMaterial({
+                color,
+                transparent: true,
+                opacity: 0.35
+            })
+        );
+
+        orbitPath.rotation.x = Math.PI / 2;
+
+        galaxy.add(orbitPath);
+    });
+
+
+    // Lighting
+
+    scene.add(
+        new THREE.AmbientLight(0xffffff, 1.5)
+    );
+
+
+    // Animation
+
+    function animate() {
+        requestAnimationFrame(animate);
+
+        if (!reducedMotion) {
+            sun.rotation.y += 0.003;
+
+            planets.forEach((item) => {
+                item.orbit.rotation.y += item.speed;
+                item.planet.rotation.x += 0.005;
+            });
+
+            galaxy.rotation.y += 0.0008;
+        }
+
+        renderer.render(scene, camera);
     }
 
-    renderer.render(scene, camera);
-  }
+    resizeScene(canvas, camera, renderer);
+    watchResize(canvas, camera, renderer);
 
-  animate();
-
-  new ResizeObserver(() => {
-    const width = canvas.clientWidth;
-    const height = Math.max(canvas.clientHeight, 1);
-
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-    renderer.setSize(width, height);
-  }).observe(canvas);
+    animate();
 }
 
-/* =====================================
-   4. CUSTOM CURSOR GLOW
-===================================== */
+
+/* =====================================================
+   06. CUSTOM CURSOR
+===================================================== */
 
 function createCursor() {
-  const cursor = document.querySelector(".cursor-glow");
-  if (!cursor) return;
+    const cursor = document.querySelector(".cursor-glow");
 
-  if (window.matchMedia("(pointer: coarse)").matches) {
-    cursor.style.display = "none";
-    return;
-  }
+    if (!cursor) return;
 
-  let mouseX = 0;
-  let mouseY = 0;
-  let currentX = 0;
-  let currentY = 0;
+    if (window.matchMedia("(pointer: coarse)").matches) {
+        cursor.style.display = "none";
+        return;
+    }
 
-  window.addEventListener("mousemove", (event) => {
-    mouseX = event.clientX;
-    mouseY = event.clientY;
-  });
+    let mouseX = -200;
+    let mouseY = -200;
 
-  function animateCursor() {
-    currentX += (mouseX - currentX) * 0.12;
-    currentY += (mouseY - currentY) * 0.12;
+    let currentX = -200;
+    let currentY = -200;
 
-    cursor.style.transform =
-      `translate3d(${currentX}px, ${currentY}px, 0)`;
+    window.addEventListener("mousemove", (event) => {
+        mouseX = event.clientX;
+        mouseY = event.clientY;
+    });
 
-    requestAnimationFrame(animateCursor);
-  }
+    function animateCursor() {
+        currentX += (mouseX - currentX) * 0.12;
+        currentY += (mouseY - currentY) * 0.12;
 
-  animateCursor();
+        cursor.style.transform =
+            `translate3d(${currentX}px, ${currentY}px, 0)`;
+
+        requestAnimationFrame(animateCursor);
+    }
+
+    animateCursor();
 }
 
-/* =====================================
-   5. NAVIGATION ACTIVE SECTION
-===================================== */
+
+/* =====================================================
+   07. ACTIVE NAVIGATION
+===================================================== */
 
 function setupNavigation() {
-  const sections = document.querySelectorAll("main section[id]");
-  const navLinks = document.querySelectorAll(".nav-links a");
+    const sections = document.querySelectorAll(
+        "main section[id]"
+    );
 
-  if (!sections.length || !navLinks.length) return;
+    const navLinks = document.querySelectorAll(
+        ".nav-links a"
+    );
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
+    if (!sections.length || !navLinks.length) return;
 
-        navLinks.forEach((link) => {
-          link.classList.toggle(
-            "active",
-            link.getAttribute("href") === `#${entry.target.id}`
-          );
-        });
-      });
-    },
-    {
-      threshold: 0.25
-    }
-  );
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
 
-  sections.forEach((section) => observer.observe(section));
+                navLinks.forEach((link) => {
+                    const isActive =
+                        link.getAttribute("href") ===
+                        `#${entry.target.id}`;
+
+                    link.classList.toggle("active", isActive);
+                });
+            });
+        },
+        {
+            threshold: 0.25
+        }
+    );
+
+    sections.forEach((section) => {
+        observer.observe(section);
+    });
 }
 
-/* =====================================
-   6. SMOOTH SCROLL
-===================================== */
+
+/* =====================================================
+   08. SMOOTH SCROLL
+===================================================== */
 
 function setupSmoothScroll() {
-  document.querySelectorAll('a[href^="#"]').forEach((link) => {
-    link.addEventListener("click", (event) => {
-      const targetId = link.getAttribute("href");
+    document.querySelectorAll('a[href^="#"]').forEach((link) => {
+        link.addEventListener("click", (event) => {
+            const targetId = link.getAttribute("href");
 
-      if (!targetId || targetId === "#") return;
+            if (!targetId || targetId === "#") return;
 
-      const target = document.querySelector(targetId);
+            const target = document.querySelector(targetId);
 
-      if (target) {
-        event.preventDefault();
+            if (!target) return;
 
-        target.scrollIntoView({
-          behavior: prefersReducedMotion ? "instant" : "smooth",
-          block: "start"
+            event.preventDefault();
+
+            target.scrollIntoView({
+                behavior: reducedMotion ? "auto" : "smooth",
+                block: "start"
+            });
         });
-      }
     });
-  });
 }
 
-/* =====================================
-   7. REVEAL ELEMENTS ON SCROLL
-===================================== */
+
+/* =====================================================
+   09. SECTION REVEAL
+===================================================== */
 
 function setupReveal() {
-  const elements = document.querySelectorAll(
-    ".identity, .universe, .projects, .skills, .contact"
-  );
+    const elements = document.querySelectorAll(
+        ".identity, .universe, .projects, .skills, .contact"
+    );
 
-  if (!elements.length) return;
+    if (!elements.length) return;
 
-  elements.forEach((element) => {
-    element.style.opacity = "0";
-    element.style.transform = "translateY(30px)";
-    element.style.transition = "opacity 0.8s ease, transform 0.8s ease";
-  });
+    if (reducedMotion || !("IntersectionObserver" in window)) {
+        return;
+    }
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = "1";
-          entry.target.style.transform = "translateY(0)";
-          observer.unobserve(entry.target);
+    elements.forEach((element) => {
+        element.style.opacity = "0";
+        element.style.transform = "translateY(35px)";
+
+        element.style.transition =
+            "opacity 0.8s ease, transform 0.8s ease";
+    });
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+
+                entry.target.style.opacity = "1";
+                entry.target.style.transform = "translateY(0)";
+
+                observer.unobserve(entry.target);
+            });
+        },
+        {
+            threshold: 0.12
         }
-      });
-    },
-    { threshold: 0.12 }
-  );
+    );
 
-  elements.forEach((element) => observer.observe(element));
+    elements.forEach((element) => {
+        observer.observe(element);
+    });
 }
 
-/* =====================================
-   8. SYSTEM INITIALIZATION
-===================================== */
+
+/* =====================================================
+   10. SYSTEM INITIALIZATION
+===================================================== */
 
 function initializeASIM() {
-  console.log("%c ASIM.OS // 8070 ", "color:#00e5ff;font-size:20px;font-weight:bold;");
-  console.log("%c SYSTEM ONLINE ", "color:#8b5cf6;font-size:14px;");
-  console.log("ASIM CORE initialized.");
+    console.log(
+        "%c ASIM.OS // 8070 ",
+        "background:#03050b;color:#00e5ff;font-size:22px;font-weight:bold;padding:10px;"
+    );
 
-  try {
-    createStarfield();
-    createCore();
-    createUniverse();
-  } catch (error) {
-    console.error("3D engine initialization failed:", error);
-  }
+    console.log(
+        "%c SYSTEM ONLINE ",
+        "color:#00ff9d;font-size:14px;font-weight:bold;"
+    );
 
-  createCursor();
-  setupNavigation();
-  setupSmoothScroll();
-  setupReveal();
+    console.log("ASIM CORE initialized.");
+    console.log("Digital Universe initialized.");
+
+    // Each 3D system initializes independently.
+    // A failure in one will not stop the others.
+
+    const systems = [
+        ["STARFIELD", createStarfield],
+        ["ASIM CORE", createCore],
+        ["DIGITAL UNIVERSE", createUniverse]
+    ];
+
+    systems.forEach(([name, initialize]) => {
+        try {
+            initialize();
+            console.log(`${name}: ONLINE`);
+        } catch (error) {
+            console.error(`${name}: FAILED`, error);
+        }
+    });
+
+    createCursor();
+    setupNavigation();
+    setupSmoothScroll();
+    setupReveal();
 }
 
+
+/* =====================================================
+   11. START SYSTEM
+===================================================== */
+
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initializeASIM);
+    document.addEventListener(
+        "DOMContentLoaded",
+        initializeASIM,
+        { once: true }
+    );
 } else {
-  initializeASIM();
+    initializeASIM();
 }
