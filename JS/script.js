@@ -598,6 +598,84 @@ function setupReveal() {
 }
 
 
+/* =========================================
+   INTERACTIVE MULTIVERSE
+========================================= */
+
+function createMultiversePortals() {
+    const background = document.querySelector("#space-background");
+
+    if (!background) return;
+
+    // Create portal container
+    const container = document.createElement("div");
+    container.className = "multiverse-portals";
+
+    const dimensions = [
+        { name: "UNIVERSE ALPHA", className: "portal-alpha" },
+        { name: "UNIVERSE BETA", className: "portal-beta" },
+        { name: "UNIVERSE GAMMA", className: "portal-gamma" }
+    ];
+
+    const portals = [];
+
+    dimensions.forEach((dimension) => {
+        const portal = document.createElement("div");
+        portal.className = `dimension-portal ${dimension.className}`;
+
+        const core = document.createElement("div");
+        core.className = "portal-core";
+
+        const label = document.createElement("span");
+        label.className = "portal-label";
+        label.textContent = dimension.name;
+
+        portal.append(core, label);
+        container.appendChild(portal);
+
+        portals.push(portal);
+    });
+
+    background.appendChild(container);
+
+    // Mouse movement interaction
+    if (window.matchMedia("(pointer: fine)").matches) {
+        let mouseX = 0;
+        let mouseY = 0;
+
+        let currentX = 0;
+        let currentY = 0;
+
+        window.addEventListener("mousemove", (event) => {
+            mouseX = (event.clientX / window.innerWidth - 0.5) * 2;
+            mouseY = (event.clientY / window.innerHeight - 0.5) * 2;
+        });
+
+        function animatePortals() {
+            currentX += (mouseX - currentX) * 0.035;
+            currentY += (mouseY - currentY) * 0.035;
+
+            portals.forEach((portal, index) => {
+                const depth = (index + 1) * 12;
+
+                portal.style.translate =
+                    `${-currentX * depth}px ${-currentY * depth}px`;
+            });
+
+            requestAnimationFrame(animatePortals);
+        }
+
+        if (!window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches) {
+            animatePortals();
+        }
+    }
+
+    console.log("MULTIVERSE PORTALS: ONLINE");
+}
+
+
 /* =====================================================
    10. SYSTEM INITIALIZATION
 ===================================================== */
