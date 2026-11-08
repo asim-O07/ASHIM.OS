@@ -1,496 +1,464 @@
 
 import * as THREE from "three";
 
-/* =========================================
+/* =====================================
    ASIM.OS // 8070
-   3D SYSTEM ENGINE
-========================================= */
-
-const reducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
-).matches;
-
-const clock = new THREE.Clock();
-
-/* =========================================
-   01. CREATE STARFIELD
-========================================= */
-
-function createStars(scene, count = 1800, spread = 100) {
-    const positions = new Float32Array(count * 3);
-
-    for (let i = 0; i < count; i++) {
-        positions[i * 3] = (Math.random() - 0.5) * spread;
-        positions[i * 3 + 1] = (Math.random() - 0.5) * spread;
-        positions[i * 3 + 2] = (Math.random() - 0.5) * spread;
-    }
-
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute(
-        "position",
-        new THREE.BufferAttribute(positions, 3)
-    );
-
-    const material = new THREE.PointsMaterial({
-        color: 0x9bdfff,
-        size: 0.09,
-        transparent: true,
-        opacity: 0.8,
-        sizeAttenuation: true
-    });
-
-    const stars = new THREE.Points(geometry, material);
-    scene.add(stars);
-
-    return stars;
-}
-
-/* =========================================
-   02. ASIM CORE
-========================================= */
-
-const coreCanvas = document.querySelector("#core-canvas");
-
-let coreRenderer;
-let coreScene;
-let coreCamera;
-let coreGroup;
-let coreStars;
-
-if (coreCanvas) {
-    coreScene = new THREE.Scene();
-
-    coreCamera = new THREE.PerspectiveCamera(
-        45,
-        1,
-        0.1,
-        100
-    );
-
-    coreCamera.position.z = 7;
-
-    coreRenderer = new THREE.WebGLRenderer({
-        canvas: coreCanvas,
-        alpha: true,
-        antialias: true
-    });
-
-    coreRenderer.setPixelRatio(
-        Math.min(window.devicePixelRatio, 2)
-    );
-
-    coreRenderer.setClearColor(0x000000, 0);
-
-    coreGroup = new THREE.Group();
-    coreScene.add(coreGroup);
-
-    // Main energy core
-    const coreGeometry = new THREE.IcosahedronGeometry(1.45, 2);
-
-    const coreMaterial = new THREE.MeshStandardMaterial({
-        color: 0x071a34,
-        emissive: 0x0066bb,
-        emissiveIntensity: 1.1,
-        metalness: 0.8,
-        roughness: 0.25,
-        wireframe: true
-    });
-
-    const coreMesh = new THREE.Mesh(
-        coreGeometry,
-        coreMaterial
-    );
-
-    coreGroup.add(coreMesh);
-
-    // Inner glowing sphere
-    const innerGeometry = new THREE.SphereGeometry(0.85, 48, 48);
-
-    const innerMaterial = new THREE.MeshBasicMaterial({
-        color: 0x073d70,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.35
-    });
-
-    const innerSphere = new THREE.Mesh(
-        innerGeometry,
-        innerMaterial
-    );
-
-    coreGroup.add(innerSphere);
-
-    // Outer orbital rings
-    const ringMaterial = new THREE.MeshBasicMaterial({
-        color: 0x00eaff,
-        transparent: true,
-        opacity: 0.7
-    });
-
-    const ring1 = new THREE.Mesh(
-        new THREE.TorusGeometry(2.05, 0.009, 8, 140),
-        ringMaterial
-    );
-
-    ring1.rotation.x = 1.15;
-    ring1.rotation.y = 0.35;
-    coreGroup.add(ring1);
-
-    const ring2 = new THREE.Mesh(
-        new THREE.TorusGeometry(2.35, 0.006, 8, 140),
-        new THREE.MeshBasicMaterial({
-            color: 0x925cff,
-            transparent: true,
-            opacity: 0.65
-        })
-    );
-
-    ring2.rotation.x = 0.4;
-    ring2.rotation.y = 1.1;
-    coreGroup.add(ring2);
-
-    // Lighting
-    coreScene.add(
-        new THREE.AmbientLight(0x6688aa, 1.5)
-    );
-
-    const cyanLight = new THREE.PointLight(
-        0x00eaff,
-        18,
-        20
-    );
-
-    cyanLight.position.set(3, 3, 4);
-    coreScene.add(cyanLight);
-
-    const purpleLight = new THREE.PointLight(
-        0x803cff,
-        12,
-        20
-    );
-
-    purpleLight.position.set(-3, -2, 2);
-    coreScene.add(purpleLight);
-
-    coreStars = createStars(coreScene, 700, 30);
-
-    function resizeCore() {
-        const width = coreCanvas.clientWidth;
-        const height = coreCanvas.clientHeight;
-
-        if (!width || !height) return;
-
-        coreRenderer.setSize(width, height, false);
-
-        coreCamera.aspect = width / height;
-        coreCamera.updateProjectionMatrix();
-    }
-
-    resizeCore();
-
-    window.addEventListener("resize", resizeCore);
-}
-
-/* =========================================
-   03. DIGITAL UNIVERSE
-========================================= */
-
-const universeCanvas = document.querySelector(
-    "#universe-canvas"
-);
-
-let universeRenderer;
-let universeScene;
-let universeCamera;
-let galaxyGroup;
-let galaxyStars;
-let planets = [];
-
-if (universeCanvas) {
-    universeScene = new THREE.Scene();
-
-    universeCamera = new THREE.PerspectiveCamera(
-        50,
-        1,
-        0.1,
-        100
-    );
-
-    universeCamera.position.set(0, 2, 9);
-    universeCamera.lookAt(0, 0, 0);
-
-    universeRenderer = new THREE.WebGLRenderer({
-        canvas: universeCanvas,
-        alpha: true,
-        antialias: true
-    });
-
-    universeRenderer.setPixelRatio(
-        Math.min(window.devicePixelRatio, 2)
-    );
-
-    universeRenderer.setClearColor(0x000000, 0);
-
-    galaxyGroup = new THREE.Group();
-    universeScene.add(galaxyGroup);
-
-    // Central galaxy
-    const sunGeometry = new THREE.SphereGeometry(
-        0.75,
-        48,
-        48
-    );
-
-    const sunMaterial = new THREE.MeshBasicMaterial({
-        color: 0x00bfff,
-        wireframe: true
-    });
-
-    const sun = new THREE.Mesh(
-        sunGeometry,
-        sunMaterial
-    );
-
-    galaxyGroup.add(sun);
-
-    // Central glow
-    const glow = new THREE.Mesh(
-        new THREE.SphereGeometry(1, 32, 32),
-        new THREE.MeshBasicMaterial({
-            color: 0x176cff,
-            transparent: true,
-            opacity: 0.12
-        })
-    );
-
-    galaxyGroup.add(glow);
-
-    // Orbital planets
-    const planetData = [
-        {
-            radius: 0.2,
-            distance: 1.8,
-            color: 0x00eaff,
-            speed: 0.7
-        },
-        {
-            radius: 0.3,
-            distance: 2.7,
-            color: 0x9561ff,
-            speed: 0.4
-        },
-        {
-            radius: 0.14,
-            distance: 3.5,
-            color: 0x4a9eff,
-            speed: 0.25
-        }
-    ];
-
-    planetData.forEach((data, index) => {
-        const orbit = new THREE.Group();
-        galaxyGroup.add(orbit);
-
-        const planet = new THREE.Mesh(
-            new THREE.SphereGeometry(
-                data.radius,
-                24,
-                24
-            ),
-            new THREE.MeshStandardMaterial({
-                color: data.color,
-                emissive: data.color,
-                emissiveIntensity: 0.6,
-                metalness: 0.6,
-                roughness: 0.3
-            })
-        );
-
-        planet.position.x = data.distance;
-        orbit.add(planet);
-
-        const orbitLine = new THREE.Mesh(
-            new THREE.TorusGeometry(
-                data.distance,
-                0.004,
-                4,
-                120
-            ),
-            new THREE.MeshBasicMaterial({
-                color: data.color,
-                transparent: true,
-                opacity: 0.25
-            })
-        );
-
-        orbitLine.rotation.x = Math.PI / 2;
-        galaxyGroup.add(orbitLine);
-
-        planets.push({
-            orbit,
-            planet,
-            speed: data.speed,
-            index
-        });
-    });
-
-    universeScene.add(
-        new THREE.AmbientLight(0xffffff, 1.8)
-    );
-
-    const galaxyLight = new THREE.PointLight(
-        0x00aaff,
-        20,
-        30
-    );
-
-    galaxyLight.position.set(2, 3, 4);
-    universeScene.add(galaxyLight);
-
-    galaxyStars = createStars(
-        universeScene,
-        1000,
-        35
-    );
-
-    function resizeUniverse() {
-        const width = universeCanvas.clientWidth;
-        const height = universeCanvas.clientHeight;
-
-        if (!width || !height) return;
-
-        universeRenderer.setSize(width, height, false);
-
-        universeCamera.aspect = width / height;
-        universeCamera.updateProjectionMatrix();
-    }
-
-    resizeUniverse();
-
-    window.addEventListener("resize", resizeUniverse);
-}
-
-/* =========================================
-   04. MOUSE INTERACTION
-========================================= */
-
-const mouse = {
-    x: 0,
-    y: 0
+   MAIN SYSTEM ENGINE
+===================================== */
+
+const CONFIG = {
+  starCount: 1800,
+  coreColor: 0x00e5ff,
+  planetColors: [0x00e5ff, 0x8b5cf6, 0x2563eb]
 };
 
-window.addEventListener("pointermove", (event) => {
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-});
+const prefersReducedMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)"
+).matches;
 
-/* =========================================
-   05. CURSOR GLOW
-========================================= */
+/* =====================================
+   1. STARFIELD BACKGROUND
+===================================== */
 
-const cursorGlow = document.querySelector(".cursor-glow");
+function createStarfield() {
+  const container = document.querySelector("#space-background");
+  if (!container) return;
 
-if (cursorGlow) {
-    window.addEventListener("pointermove", (event) => {
-        cursorGlow.style.left = `${event.clientX - 150}px`;
-        cursorGlow.style.top = `${event.clientY - 150}px`;
-    });
-}
+  const scene = new THREE.Scene();
 
-/* =========================================
-   06. NAVIGATION HIGHLIGHT
-========================================= */
+  const camera = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+  );
 
-const sections = document.querySelectorAll("main section");
-const navLinks = document.querySelectorAll(".nav-link");
+  camera.position.z = 5;
 
-const sectionObserver = new IntersectionObserver(
-    (entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                navLinks.forEach((link) => {
-                    link.classList.remove("active");
+  const renderer = new THREE.WebGLRenderer({
+    alpha: true,
+    antialias: true
+  });
 
-                    if (
-                        link.getAttribute("href") ===
-                        `#${entry.target.id}`
-                    ) {
-                        link.classList.add("active");
-                    }
-                });
-            }
-        });
-    },
-    {
-        threshold: 0.35
-    }
-);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  container.appendChild(renderer.domElement);
 
-sections.forEach((section) => {
-    sectionObserver.observe(section);
-});
+  const geometry = new THREE.BufferGeometry();
+  const positions = new Float32Array(CONFIG.starCount * 3);
 
-/* =========================================
-   07. MAIN ANIMATION LOOP
-========================================= */
+  for (let i = 0; i < CONFIG.starCount * 3; i += 3) {
+    positions[i] = (Math.random() - 0.5) * 100;
+    positions[i + 1] = (Math.random() - 0.5) * 100;
+    positions[i + 2] = (Math.random() - 0.5) * 100;
+  }
 
-function animate() {
+  geometry.setAttribute(
+    "position",
+    new THREE.BufferAttribute(positions, 3)
+  );
+
+  const material = new THREE.PointsMaterial({
+    color: 0x8bdcff,
+    size: 0.055,
+    transparent: true,
+    opacity: 0.8
+  });
+
+  const stars = new THREE.Points(geometry, material);
+  scene.add(stars);
+
+  function animate() {
     requestAnimationFrame(animate);
 
-    const elapsed = clock.getElapsedTime();
-
-    // ASIM CORE
-    if (coreRenderer && coreGroup) {
-        if (!reducedMotion) {
-            coreGroup.rotation.y = elapsed * 0.15;
-            coreGroup.rotation.x =
-                Math.sin(elapsed * 0.3) * 0.12;
-
-            coreGroup.rotation.y += mouse.x * 0.001;
-
-            coreStars.rotation.y = elapsed * 0.008;
-        }
-
-        coreRenderer.render(coreScene, coreCamera);
+    if (!prefersReducedMotion) {
+      stars.rotation.y += 0.00015;
+      stars.rotation.x += 0.00008;
     }
 
-    // DIGITAL UNIVERSE
-    if (universeRenderer && galaxyGroup) {
-        if (!reducedMotion) {
-            galaxyGroup.rotation.y = elapsed * 0.08;
-            galaxyGroup.rotation.x =
-                Math.sin(elapsed * 0.2) * 0.08;
+    renderer.render(scene, camera);
+  }
 
-            galaxyStars.rotation.y = -elapsed * 0.01;
+  animate();
 
-            planets.forEach((item) => {
-                item.orbit.rotation.y =
-                    elapsed * item.speed;
-
-                item.planet.rotation.y =
-                    elapsed * 0.6;
-            });
-        }
-
-        universeRenderer.render(
-            universeScene,
-            universeCamera
-        );
-    }
+  window.addEventListener("resize", () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
 }
 
-animate();
+/* =====================================
+   2. ASIM CORE - 3D OBJECT
+===================================== */
 
-/* =========================================
-   08. SYSTEM INITIALIZATION
-========================================= */
+function createCore() {
+  const canvas = document.querySelector("#core-canvas");
+  if (!canvas) return;
 
-console.log(
-    "%c ASIM.OS // 8070 ",
-    "background:#03050b;color:#00eaff;font-size:20px;font-weight:bold;padding:12px;"
-);
+  const scene = new THREE.Scene();
 
-console.log("SYSTEM ONLINE");
-console.log("3D ENGINE INITIALIZED");
-console.log("WELCOME TO THE DIGITAL UNIVERSE");
+  const camera = new THREE.PerspectiveCamera(
+    45,
+    canvas.clientWidth / Math.max(canvas.clientHeight, 1),
+    0.1,
+    100
+  );
 
+  camera.position.z = 6;
+
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    alpha: true,
+    antialias: true
+  });
+
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+
+  // Core geometry
+  const coreGeometry = new THREE.IcosahedronGeometry(1.4, 2);
+
+  const coreMaterial = new THREE.MeshStandardMaterial({
+    color: CONFIG.coreColor,
+    wireframe: true,
+    emissive: 0x007caa,
+    emissiveIntensity: 1.5
+  });
+
+  const core = new THREE.Mesh(coreGeometry, coreMaterial);
+  scene.add(core);
+
+  // Outer rings
+  const ringGroup = new THREE.Group();
+
+  for (let i = 0; i < 3; i++) {
+    const ringGeometry = new THREE.TorusGeometry(
+      1.9 + i * 0.25,
+      0.008,
+      8,
+      120
+    );
+
+    const ringMaterial = new THREE.MeshBasicMaterial({
+      color: i === 1 ? 0x8b5cf6 : 0x00e5ff,
+      transparent: true,
+      opacity: 0.7
+    });
+
+    const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+
+    ring.rotation.x = Math.PI / 2 + i * 0.5;
+    ring.rotation.y = i * 0.7;
+
+    ringGroup.add(ring);
+  }
+
+  scene.add(ringGroup);
+
+  // Central light
+  const light = new THREE.PointLight(0x00d9ff, 25, 15);
+  light.position.set(0, 0, 3);
+  scene.add(light);
+
+  scene.add(new THREE.AmbientLight(0xffffff, 1.2));
+
+  function animate() {
+    requestAnimationFrame(animate);
+
+    if (!prefersReducedMotion) {
+      core.rotation.x += 0.002;
+      core.rotation.y += 0.004;
+
+      ringGroup.rotation.y += 0.002;
+      ringGroup.rotation.x += 0.001;
+    }
+
+    renderer.render(scene, camera);
+  }
+
+  animate();
+
+  new ResizeObserver(() => {
+    const width = canvas.clientWidth;
+    const height = Math.max(canvas.clientHeight, 1);
+
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    renderer.setSize(width, height);
+  }).observe(canvas);
+}
+
+/* =====================================
+   3. DIGITAL UNIVERSE
+===================================== */
+
+function createUniverse() {
+  const canvas = document.querySelector("#universe-canvas");
+  if (!canvas) return;
+
+  const scene = new THREE.Scene();
+
+  const camera = new THREE.PerspectiveCamera(
+    50,
+    canvas.clientWidth / Math.max(canvas.clientHeight, 1),
+    0.1,
+    100
+  );
+
+  camera.position.set(0, 3, 10);
+  camera.lookAt(0, 0, 0);
+
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    alpha: true,
+    antialias: true
+  });
+
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+
+  const galaxy = new THREE.Group();
+  scene.add(galaxy);
+
+  // Central planet
+  const sunGeometry = new THREE.SphereGeometry(0.8, 48, 48);
+
+  const sunMaterial = new THREE.MeshBasicMaterial({
+    color: 0x00cfff,
+    wireframe: true
+  });
+
+  const sun = new THREE.Mesh(sunGeometry, sunMaterial);
+  galaxy.add(sun);
+
+  // Orbiting planets
+  const planets = [];
+
+  CONFIG.planetColors.forEach((color, index) => {
+    const orbit = new THREE.Group();
+
+    const radius = 2 + index * 0.85;
+
+    const planetGeometry = new THREE.SphereGeometry(
+      0.18 + index * 0.06,
+      24,
+      24
+    );
+
+    const planetMaterial = new THREE.MeshStandardMaterial({
+      color,
+      emissive: color,
+      emissiveIntensity: 0.7,
+      wireframe: true
+    });
+
+    const planet = new THREE.Mesh(
+      planetGeometry,
+      planetMaterial
+    );
+
+    planet.position.x = radius;
+
+    orbit.add(planet);
+    galaxy.add(orbit);
+
+    planets.push(orbit);
+
+    // Orbit path
+    const orbitPath = new THREE.Mesh(
+      new THREE.TorusGeometry(radius, 0.006, 8, 120),
+      new THREE.MeshBasicMaterial({
+        color,
+        transparent: true,
+        opacity: 0.35
+      })
+    );
+
+    orbitPath.rotation.x = Math.PI / 2;
+    galaxy.add(orbitPath);
+  });
+
+  scene.add(new THREE.AmbientLight(0xffffff, 1.5));
+
+  function animate() {
+    requestAnimationFrame(animate);
+
+    if (!prefersReducedMotion) {
+      sun.rotation.y += 0.003;
+
+      planets.forEach((planet, index) => {
+        planet.rotation.y += 0.003 + index * 0.001;
+      });
+
+      galaxy.rotation.y += 0.001;
+    }
+
+    renderer.render(scene, camera);
+  }
+
+  animate();
+
+  new ResizeObserver(() => {
+    const width = canvas.clientWidth;
+    const height = Math.max(canvas.clientHeight, 1);
+
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    renderer.setSize(width, height);
+  }).observe(canvas);
+}
+
+/* =====================================
+   4. CUSTOM CURSOR GLOW
+===================================== */
+
+function createCursor() {
+  const cursor = document.querySelector(".cursor-glow");
+  if (!cursor) return;
+
+  if (window.matchMedia("(pointer: coarse)").matches) {
+    cursor.style.display = "none";
+    return;
+  }
+
+  let mouseX = 0;
+  let mouseY = 0;
+  let currentX = 0;
+  let currentY = 0;
+
+  window.addEventListener("mousemove", (event) => {
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+  });
+
+  function animateCursor() {
+    currentX += (mouseX - currentX) * 0.12;
+    currentY += (mouseY - currentY) * 0.12;
+
+    cursor.style.transform =
+      `translate3d(${currentX}px, ${currentY}px, 0)`;
+
+    requestAnimationFrame(animateCursor);
+  }
+
+  animateCursor();
+}
+
+/* =====================================
+   5. NAVIGATION ACTIVE SECTION
+===================================== */
+
+function setupNavigation() {
+  const sections = document.querySelectorAll("main section[id]");
+  const navLinks = document.querySelectorAll(".nav-links a");
+
+  if (!sections.length || !navLinks.length) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        navLinks.forEach((link) => {
+          link.classList.toggle(
+            "active",
+            link.getAttribute("href") === `#${entry.target.id}`
+          );
+        });
+      });
+    },
+    {
+      threshold: 0.25
+    }
+  );
+
+  sections.forEach((section) => observer.observe(section));
+}
+
+/* =====================================
+   6. SMOOTH SCROLL
+===================================== */
+
+function setupSmoothScroll() {
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
+    link.addEventListener("click", (event) => {
+      const targetId = link.getAttribute("href");
+
+      if (!targetId || targetId === "#") return;
+
+      const target = document.querySelector(targetId);
+
+      if (target) {
+        event.preventDefault();
+
+        target.scrollIntoView({
+          behavior: prefersReducedMotion ? "instant" : "smooth",
+          block: "start"
+        });
+      }
+    });
+  });
+}
+
+/* =====================================
+   7. REVEAL ELEMENTS ON SCROLL
+===================================== */
+
+function setupReveal() {
+  const elements = document.querySelectorAll(
+    ".identity, .universe, .projects, .skills, .contact"
+  );
+
+  if (!elements.length) return;
+
+  elements.forEach((element) => {
+    element.style.opacity = "0";
+    element.style.transform = "translateY(30px)";
+    element.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+  });
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = "1";
+          entry.target.style.transform = "translateY(0)";
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.12 }
+  );
+
+  elements.forEach((element) => observer.observe(element));
+}
+
+/* =====================================
+   8. SYSTEM INITIALIZATION
+===================================== */
+
+function initializeASIM() {
+  console.log("%c ASIM.OS // 8070 ", "color:#00e5ff;font-size:20px;font-weight:bold;");
+  console.log("%c SYSTEM ONLINE ", "color:#8b5cf6;font-size:14px;");
+  console.log("ASIM CORE initialized.");
+
+  try {
+    createStarfield();
+    createCore();
+    createUniverse();
+  } catch (error) {
+    console.error("3D engine initialization failed:", error);
+  }
+
+  createCursor();
+  setupNavigation();
+  setupSmoothScroll();
+  setupReveal();
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializeASIM);
+} else {
+  initializeASIM();
+}
