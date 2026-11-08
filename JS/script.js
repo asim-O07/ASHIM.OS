@@ -33,15 +33,26 @@ const isMobile = window.matchMedia(
 /* =====================================================
    02. SHARED HELPERS
 ===================================================== */
-
 function createRenderer(canvas, options = {}) {
-    const renderer = new THREE.WebGLRenderer({
-        canvas,
+    const settings = {
         alpha: true,
         antialias: !isMobile,
         powerPreference: "high-performance",
         ...options
-    });
+    };
+
+    if (canvas) {
+        settings.canvas = canvas;
+    }
+
+    const renderer = new THREE.WebGLRenderer(settings);
+
+    renderer.setPixelRatio(
+        Math.min(window.devicePixelRatio || 1, CONFIG.maxPixelRatio)
+    );
+
+    return renderer;
+}
 
     renderer.setPixelRatio(
         Math.min(window.devicePixelRatio || 1, CONFIG.maxPixelRatio)
