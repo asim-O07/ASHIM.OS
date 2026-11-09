@@ -1,0 +1,351 @@
+/* =====================================
+   ASIM.OS // 8070
+   BASE SYSTEM STYLES
+===================================== */
+
+:root {
+    --void: #050509;
+    --surface: #0a0b14;
+
+    --cyan: #00e5ff;
+    --blue: #087cff;
+    --purple: #8b5cff;
+    --pink: #ff00a8;
+    --green: #00ff9c;
+
+    --text: #f1f5ff;
+    --muted: #8b91a7;
+
+    --font-main: 'Rajdhani', sans-serif;
+    --font-tech: 'Orbitron', sans-serif;
+    --font-code: 'Share Tech Mono', monospace;
+
+    --glow-cyan: 0 0 12px rgba(0, 229, 255, 0.5);
+    --glow-purple: 0 0 15px rgba(139, 92, 255, 0.5);
+}
+
+/* RESET */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 90px;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--void);
+    color: var(--text);
+    font-family: var(--font-main);
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* SELECTION */
+
+::selection {
+    background: var(--cyan);
+    color: #000;
+}
+
+/* LINKS */
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* BUTTONS */
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* IMAGES */
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--void);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+        var(--cyan),
+        var(--purple),
+        var(--pink)
+    );
+    border-radius: 10px;
+}
+
+/* NEON TEXT */
+
+.neon-text {
+    color: var(--cyan);
+    text-shadow:
+        0 0 5px var(--cyan),
+        0 0 15px rgba(0, 229, 255, 0.7),
+        0 0 30px rgba(0, 229, 255, 0.3);
+}
+
+/* MAIN SYSTEM */
+
+#asim-system {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    isolation: isolate;
+}
+
+/* BACKGROUND ENVIRONMENT */
+
+.city-background {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    background:
+        radial-gradient(
+            ellipse at 20% 30%,
+            rgba(0, 80, 150, 0.16),
+            transparent 45%
+        ),
+        radial-gradient(
+            ellipse at 85% 65%,
+            rgba(120, 0, 160, 0.13),
+            transparent 45%
+        ),
+        linear-gradient(
+            135deg,
+            #050509,
+            #080b18,
+            #090512
+        );
+}
+
+/* CITY OVERLAY */
+
+.city-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.15),
+            rgba(0, 0, 0, 0.7)
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent 0,
+            transparent 80px,
+            rgba(0, 229, 255, 0.025) 81px
+        );
+}
+
+/* DIGITAL GRID */
+
+.city-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(
+            rgba(0, 229, 255, 0.045) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(0, 229, 255, 0.045) 1px,
+            transparent 1px
+        );
+    background-size: 55px 55px;
+
+    mask-image: linear-gradient(
+        to bottom,
+        transparent,
+        black 25%,
+        black 75%,
+        transparent
+    );
+}
+
+/* SCANLINES */
+
+.scanlines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.12;
+
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 3px,
+        rgba(0, 0, 0, 0.35) 4px
+    );
+}
+
+/* CURSOR GLOW */
+
+.cursor-glow {
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+
+    background: radial-gradient(
+        circle,
+        rgba(0, 229, 255, 0.07),
+        transparent 70%
+    );
+
+    pointer-events: none;
+    z-index: 10;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+}
+
+/* GLOBAL SECTION */
+
+.content-section {
+    position: relative;
+    width: min(1200px, 90%);
+    margin: auto;
+    padding: 120px 0;
+}
+
+/* SECTION LABEL */
+
+.section-label {
+    font-family: var(--font-code);
+    color: var(--cyan);
+    font-size: 13px;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+}
+
+/* GLOBAL HEADINGS */
+
+h1,
+h2,
+h3 {
+    font-family: var(--font-tech);
+    line-height: 1.2;
+}
+
+h2 {
+    font-size: clamp(24px, 4vw, 48px);
+}
+
+h2 span {
+    color: var(--cyan);
+}
+
+/* GLOBAL PARAGRAPHS */
+
+p {
+    color: var(--muted);
+    font-size: 18px;
+}
+
+/* PRIMARY BUTTON */
+
+.primary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    padding: 14px 25px;
+
+    background: rgba(0, 229, 255, 0.08);
+    border: 1px solid var(--cyan);
+
+    color: var(--cyan);
+    font-family: var(--font-tech);
+    font-size: 12px;
+    letter-spacing: 1px;
+
+    box-shadow: var(--glow-cyan);
+    transition: 0.3s ease;
+}
+
+.primary-button:hover {
+    background: var(--cyan);
+    color: #000;
+    box-shadow:
+        0 0 15px var(--cyan),
+        0 0 35px rgba(0, 229, 255, 0.5);
+}
+
+/* SECONDARY BUTTON */
+
+.secondary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 14px 25px;
+
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    color: var(--text);
+    font-family: var(--font-tech);
+    font-size: 12px;
+
+    transition: 0.3s ease;
+}
+
+.secondary-button:hover {
+    border-color: var(--purple);
+    color: var(--purple);
+    box-shadow: var(--glow-purple);
+}
+
+/* REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+
+/* SCROLL REVEAL */
+
+.reveal-element {
+    opacity: 0;
+    transform: translateY(35px);
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s ease;
+}
+
+.reveal-element.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* SYSTEM READY */
+
+.system-ready {
+    visibility: visible;
+}
