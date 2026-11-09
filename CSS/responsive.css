@@ -1,0 +1,304 @@
+/* =====================================
+   ASIM.OS // 8070
+   RESPONSIVE SYSTEM
+===================================== */
+
+/* TABLETS AND SMALL LAPTOPS */
+
+@media (max-width: 1100px) {
+
+    .navigation {
+        width: 95%;
+        gap: 15px;
+        padding: 12px 18px;
+    }
+
+    .nav-links {
+        gap: 15px;
+    }
+
+    .nav-link {
+        font-size: 9px;
+    }
+
+    .hero {
+        padding-left: 6%;
+        padding-right: 6%;
+        gap: 25px;
+    }
+
+    .hero-interface {
+        width: 280px;
+    }
+
+    .hero-title {
+        font-size: clamp(60px, 9vw, 110px);
+    }
+
+}
+
+/* TABLETS */
+
+@media (max-width: 850px) {
+
+    .navigation {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 15px 20px;
+    }
+
+    .nav-links {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding-top: 12px;
+    }
+
+    .system-status {
+        font-size: 9px;
+    }
+
+    .hero {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+
+        min-height: auto;
+        padding: 90px 7% 120px;
+    }
+
+    .hero-content {
+        max-width: 100%;
+    }
+
+    .hero-interface {
+        align-self: center;
+        width: min(100%, 350px);
+    }
+
+    .hero-coordinates {
+        gap: 15px;
+    }
+
+    .scroll-indicator {
+        left: 7%;
+    }
+
+}
+
+/* MOBILE DEVICES */
+
+@media (max-width: 600px) {
+
+    body {
+        font-size: 15px;
+    }
+
+    .navigation {
+        width: 100%;
+        min-height: auto;
+        padding: 16px 5%;
+        gap: 15px;
+    }
+
+    .brand {
+        font-size: 14px;
+    }
+
+    .brand-symbol {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+    }
+
+    .version {
+        font-size: 8px;
+    }
+
+    .nav-links {
+        justify-content: flex-start;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        gap: 22px;
+
+        padding: 12px 0 8px;
+
+        scrollbar-width: none;
+    }
+
+    .nav-links::-webkit-scrollbar {
+        display: none;
+    }
+
+    .nav-link {
+        font-size: 9px;
+        white-space: nowrap;
+    }
+
+    .system-status {
+        font-size: 8px;
+        gap: 6px;
+    }
+
+    .hero {
+        padding: 75px 6% 100px;
+        gap: 50px;
+    }
+
+    .hero-label {
+        font-size: 9px;
+        letter-spacing: 2px;
+        gap: 8px;
+    }
+
+    .label-line {
+        width: 20px;
+    }
+
+    .hero-greeting {
+        font-size: 10px;
+        letter-spacing: 2px;
+    }
+
+    .hero-title {
+        font-size: clamp(48px, 13vw, 75px);
+        letter-spacing: -3px;
+    }
+
+    .hero-subtitle {
+        font-size: 17px;
+        letter-spacing: 1px;
+    }
+
+    .hero-description {
+        font-size: 16px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .primary-button,
+    .secondary-button {
+        width: 100%;
+        text-align: center;
+    }
+
+    .hero-coordinates {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-top: 35px;
+    }
+
+    .hero-interface {
+        width: 100%;
+        min-width: 0;
+        padding: 18px;
+    }
+
+    .interface-core {
+        width: 180px;
+        height: 180px;
+    }
+
+    .scroll-indicator {
+        bottom: 25px;
+        font-size: 8px;
+    }
+
+    .scroll-line {
+        width: 35px;
+    }
+
+    .content-section {
+        width: 88%;
+        padding: 85px 0;
+    }
+
+    .content-section h2 {
+        font-size: clamp(25px, 8vw, 36px);
+    }
+
+    .content-section > p {
+        font-size: 16px;
+    }
+
+    .section-label {
+        font-size: 10px;
+        letter-spacing: 3px;
+    }
+
+    .architecture-panel,
+    .lab-panel {
+        padding: 22px;
+    }
+
+}
+
+/* VERY SMALL MOBILE DEVICES */
+
+@media (max-width: 360px) {
+
+    .brand {
+        font-size: 12px;
+        gap: 6px;
+    }
+
+    .system-status {
+        font-size: 7px;
+    }
+
+    .hero-title {
+        font-size: 46px;
+    }
+
+    .hero-subtitle {
+        font-size: 14px;
+    }
+
+    .hero-label {
+        font-size: 8px;
+    }
+
+    .hero-coordinates {
+        font-size: 8px;
+    }
+
+}
+
+/* LANDSCAPE MOBILE */
+
+@media (max-height: 500px) and (orientation: landscape) {
+
+    .hero {
+        min-height: auto;
+        padding-top: 50px;
+        padding-bottom: 80px;
+    }
+
+    .hero-title {
+        font-size: 65px;
+    }
+
+    .hero-interface {
+        max-width: 250px;
+    }
+
+}
+
+/* ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .navigation *,
+    .hero *,
+    .content-section * {
+        animation: none !important;
+        transition: none !important;
+    }
+
+}
