@@ -1,0 +1,154 @@
+/* =====================================
+   ASIM.OS // 8070
+   NAVIGATION SYSTEM
+===================================== */
+
+.navigation {
+    position: relative;
+    z-index: 100;
+
+    width: 92%;
+    max-width: 1500px;
+    min-height: 78px;
+
+    margin: 0 auto;
+    padding: 12px 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+
+    background: rgba(5, 5, 12, 0.78);
+    border: 1px solid rgba(0, 229, 255, 0.16);
+    border-top: none;
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+/* LOGO */
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    font-family: var(--font-tech);
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 1px;
+
+    white-space: nowrap;
+}
+
+.brand-symbol {
+    width: 35px;
+    height: 35px;
+
+    display: grid;
+    place-items: center;
+
+    border: 1px solid var(--cyan);
+    color: var(--cyan);
+
+    font-size: 20px;
+
+    box-shadow: var(--glow-cyan);
+    transform: skew(-8deg);
+}
+
+.version {
+    color: var(--muted);
+    font-family: var(--font-code);
+    font-size: 10px;
+}
+
+/* NAV LINKS */
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.nav-link {
+    position: relative;
+
+    color: #9298aa;
+
+    font-family: var(--font-tech);
+    font-size: 10px;
+    letter-spacing: 1px;
+
+    transition: 0.3s ease;
+}
+
+.nav-link::after {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    bottom: -9px;
+
+    width: 0;
+    height: 2px;
+
+    background: var(--cyan);
+    box-shadow: var(--glow-cyan);
+
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--cyan);
+    text-shadow: var(--glow-cyan);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
+}
+
+/* SYSTEM STATUS */
+
+.system-status {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    color: var(--green);
+
+    font-family: var(--font-code);
+    font-size: 10px;
+    letter-spacing: 1px;
+
+    white-space: nowrap;
+}
+
+.status-indicator {
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+    background: var(--green);
+
+    box-shadow: 0 0 10px var(--green);
+
+    animation: statusPulse 1.5s infinite;
+}
+
+/* STATUS ANIMATION */
+
+@keyframes statusPulse {
+    0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 10px var(--green);
+    }
+
+    50% {
+        opacity: 0.4;
+        box-shadow: 0 0 3px var(--green);
+    }
+}
