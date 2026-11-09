@@ -1,630 +1,255 @@
 
-<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="theme-color" content="#03050b">
-    <meta name="description" content="ASIM.OS // 8070 — A digital universe exploring AI, technology and creative development.">
+    <meta name="theme-color" content="#050509">
+    <meta name="description" content="ASIM.OS // 8070 — A digital universe, personal identity and futuristic portfolio.">
 
-    <title>ASIM.OS // 8070 | Digital Universe</title>
+    <title>ASIM.OS // 8070 — Digital Universe</title>
 
-    <!-- GOOGLE FONTS -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
-    <!-- MAIN CSS -->
-    <link rel="stylesheet" href="style.css">
-
-    <!-- THREE.JS IMPORT MAP -->
-    <script type="importmap">
-    {
-        "imports": {
-            "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"
-        }
-    }
-    </script>
-
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/hero.css">
+    <link rel="stylesheet" href="css/sections.css">
+    <link rel="stylesheet" href="css/responsive.css">
 </head>
 
 <body>
 
-    <!-- =====================================
-         BACKGROUND
-    ====================================== -->
+    <!-- BACKGROUND ENVIRONMENT -->
+    <div class="city-background">
+        <div class="city-overlay"></div>
+        <div class="city-grid"></div>
+        <div class="scanlines"></div>
+    </div>
 
-    <div id="space-background"></div>
-
-    <div class="noise-overlay"></div>
-
+    <!-- SYSTEM CURSOR / LIGHT EFFECT -->
     <div class="cursor-glow"></div>
 
+    <!-- MAIN SYSTEM -->
+    <main id="asim-system">
 
-    <!-- =====================================
-         NAVIGATION
-    ====================================== -->
+        <!-- NAVIGATION -->
+        <header class="navigation">
 
-    <header class="navbar">
+            <a href="#home" class="brand">
+                <span class="brand-symbol">A</span>
+                <span>ASIM<span class="neon-text">.OS</span></span>
+                <span class="version">// 8070</span>
+            </a>
 
-        <a href="#home" class="logo">
-            ASIM<span>.OS</span>
-            <small>// 8070</small>
-        </a>
+            <nav class="nav-links">
+                <a href="#home" class="nav-link active">HOME</a>
+                <a href="#identity" class="nav-link">IDENTITY</a>
+                <a href="#architecture" class="nav-link">ARCHITECTURE</a>
+                <a href="#work" class="nav-link">WORK</a>
+                <a href="#lab" class="nav-link">LAB</a>
+            </nav>
 
-        <nav class="nav-links" aria-label="Main navigation">
+            <div class="system-status">
+                <span class="status-indicator"></span>
+                SYSTEM ONLINE
+            </div>
 
-            <a href="#home" class="active">HOME</a>
-
-            <a href="#identity">IDENTITY</a>
-
-            <a href="#universe">UNIVERSE</a>
-
-            <a href="#architecture">WORK</a>
-
-            <a href="#lab">LAB</a>
-
-            <a href="#contact">CONTACT</a>
-
-        </nav>
-
-        <div class="system-status">
-            <span class="status-dot"></span>
-            SYSTEM ONLINE
-        </div>
-
-    </header>
+        </header>
 
 
-    <!-- =====================================
-         MAIN CONTENT
-    ====================================== -->
-
-    <main>
-
-
-        <!-- =================================
-             01 — HERO
-        ================================== -->
-
-        <section class="hero" id="home">
+        <!-- HERO / CITY INTRODUCTION -->
+        <section id="home" class="hero">
 
             <div class="hero-content">
 
-                <div class="eyebrow">
-                    <span class="line"></span>
-                    DIGITAL IDENTITY SYSTEM
-                    <span class="line"></span>
+                <div class="hero-label">
+                    <span class="label-line"></span>
+                    DIGITAL IDENTITY PROTOCOL
+                    <span class="label-line"></span>
                 </div>
 
-                <p class="hero-small">
-                    WELCOME TO THE UNKNOWN
-                </p>
+                <p class="hero-greeting">WELCOME TO THE FUTURE</p>
 
-                <h1>
-                    BEYOND THE
-                    <span>ORDINARY.</span>
+                <h1 class="hero-title">
+                    ASIM<span class="neon-text">.OS</span>
                 </h1>
 
+                <h2 class="hero-subtitle">
+                    BEYOND THE <span>ORDINARY.</span>
+                </h2>
+
                 <p class="hero-description">
-                    I am building beyond boundaries.
-                    Exploring intelligence, technology,
-                    creativity and the future of digital systems.
+                    A digital universe where technology,
+                    creativity and imagination converge.
+                    Explore the architecture of my mind.
                 </p>
 
                 <div class="hero-buttons">
-
-                    <a href="#identity" class="btn btn-primary">
-                        EXPLORE SYSTEM
-                        <span>↗</span>
+                    <a href="#identity" class="primary-button">
+                        ENTER THE SYSTEM <span>↗</span>
                     </a>
 
-                    <a href="#architecture" class="btn btn-secondary">
-                        VIEW MY WORK
+                    <a href="#architecture" class="secondary-button">
+                        EXPLORE UNIVERSE
                     </a>
+                </div>
 
+                <div class="hero-coordinates">
+                    <span>LOCATION: NIGHT CITY</span>
+                    <span>SECTOR: 8070</span>
+                    <span>STATUS: ACTIVE</span>
                 </div>
 
             </div>
 
 
-            <!-- 3D ASIM CORE -->
+            <!-- RIGHT SIDE SYSTEM INFORMATION -->
+            <div class="hero-interface">
 
-            <div class="core-container">
-
-                <canvas id="core-canvas" aria-label="Animated 3D ASIM core"></canvas>
-
-                <div class="core-label">
-                    <span>CORE_8070</span>
-                    <span>ACTIVE</span>
+                <div class="interface-top">
+                    <span>SYS.MONITOR</span>
+                    <span>● LIVE</span>
                 </div>
 
-                <div class="core-coordinate">
-                    X: 08.70
-                    <br>
-                    Y: 80.70
-                    <br>
-                    Z: INFINITY
+                <div class="interface-core">
+                    <div class="core-ring ring-one"></div>
+                    <div class="core-ring ring-two"></div>
+                    <div class="core-ring ring-three"></div>
+
+                    <div class="core-center">
+                        <span>A</span>
+                    </div>
                 </div>
 
-            </div>
+                <div class="interface-data">
+                    <div>
+                        <span>IDENTITY</span>
+                        <strong>ASIM</strong>
+                    </div>
 
+                    <div>
+                        <span>PROTOCOL</span>
+                        <strong>8070</strong>
+                    </div>
 
-            <!-- SYSTEM HUD -->
-
-            <div class="hero-hud">
-
-                <div class="hud-item">
-                    <span>VERSION</span>
-                    <strong>8.070</strong>
-                </div>
-
-                <div class="hud-item">
-                    <span>STATUS</span>
-                    <strong>EVOLVING</strong>
-                </div>
-
-                <div class="hud-item">
-                    <span>MISSION</span>
-                    <strong>BUILD THE FUTURE</strong>
+                    <div>
+                        <span>NETWORK</span>
+                        <strong class="neon-text">CONNECTED</strong>
+                    </div>
                 </div>
 
             </div>
 
 
             <!-- SCROLL INDICATOR -->
-
-            <a href="#identity" class="scroll-indicator">
+            <div class="scroll-indicator">
                 <span>SCROLL TO EXPLORE</span>
-                <span class="scroll-line"></span>
+                <div class="scroll-line"></div>
+            </div>
+
+        </section>
+
+
+        <!-- IDENTITY -->
+        <section id="identity" class="content-section">
+
+            <div class="section-label">01 // IDENTITY</div>
+
+            <h2>THE MIND BEHIND <span>THE SYSTEM.</span></h2>
+
+            <p>
+                Every system has an architect.
+                Discover the mind, vision and identity
+                behind ASIM.OS.
+            </p>
+
+        </section>
+
+
+        <!-- ARCHITECTURE -->
+        <section id="architecture" class="content-section">
+
+            <div class="section-label">02 // ARCHITECTURE</div>
+
+            <h2>BUILT BEYOND <span>LIMITS.</span></h2>
+
+            <p>
+                Explore the technologies, ideas and
+                architecture powering this digital universe.
+            </p>
+
+        </section>
+
+
+        <!-- WORK -->
+        <section id="work" class="content-section">
+
+            <div class="section-label">03 // WORK</div>
+
+            <h2>REALITY MEETS <span>CREATION.</span></h2>
+
+            <p>
+                A collection of projects, experiments
+                and digital creations.
+            </p>
+
+        </section>
+
+
+        <!-- LAB -->
+        <section id="lab" class="content-section">
+
+            <div class="section-label">04 // LAB</div>
+
+            <h2>EXPERIMENT. <span>EVOLVE.</span></h2>
+
+            <p>
+                The laboratory for new concepts,
+                artificial intelligence and futuristic ideas.
+            </p>
+
+        </section>
+
+
+        <!-- CONTACT -->
+        <section id="contact" class="content-section">
+
+            <div class="section-label">05 // CONNECTION</div>
+
+            <h2>BUILD SOMETHING <span>UNEXPECTED.</span></h2>
+
+            <p>
+                The next chapter starts with a connection.
+            </p>
+
+            <a href="mailto:your-email@example.com" class="primary-button">
+                ESTABLISH CONNECTION ↗
             </a>
 
         </section>
 
 
+        <!-- FOOTER -->
+        <footer class="system-footer">
 
-        <!-- =================================
-             02 — IDENTITY
-        ================================== -->
+            <div>ASIM.OS // 8070</div>
 
-        <section class="identity section" id="identity">
+            <div>DESIGNED IN THE PRESENT. BUILT FOR THE FUTURE.</div>
 
-            <div class="section-heading">
+            <div>SYSTEM STATUS: <span>ONLINE</span></div>
 
-                <span class="section-number">
-                    01 / IDENTITY
-                </span>
-
-                <h2>
-                    THE MIND
-                    <span>BEHIND THE SYSTEM.</span>
-                </h2>
-
-            </div>
-
-
-            <div class="identity-grid">
-
-                <div class="identity-main">
-
-                    <span class="small-label">
-                        OPERATOR PROFILE
-                    </span>
-
-                    <h3>
-                        ASIM ANURAG
-                    </h3>
-
-                    <p>
-                        A BCA student specializing in AI and Data Science,
-                        interested in developing intelligent systems,
-                        futuristic interfaces and meaningful digital experiences.
-                    </p>
-
-                    <p>
-                        I believe technology is not just about writing code.
-                        It is about turning imagination into something real.
-                    </p>
-
-                </div>
-
-
-                <div class="identity-stats">
-
-                    <div class="stat-card">
-                        <span>01</span>
-                        <h3>AI</h3>
-                        <p>Artificial Intelligence</p>
-                    </div>
-
-                    <div class="stat-card">
-                        <span>02</span>
-                        <h3>DS</h3>
-                        <p>Data Science</p>
-                    </div>
-
-                    <div class="stat-card">
-                        <span>03</span>
-                        <h3>DEV</h3>
-                        <p>Creative Development</p>
-                    </div>
-
-                    <div class="stat-card">
-                        <span>04</span>
-                        <h3>8070</h3>
-                        <p>Future Vision</p>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =================================
-             03 — DIGITAL UNIVERSE
-        ================================== -->
-
-        <section class="universe section" id="universe">
-
-            <div class="section-heading">
-
-                <span class="section-number">
-                    02 / DIGITAL UNIVERSE
-                </span>
-
-                <h2>
-                    EXPLORE THE
-                    <span>UNKNOWN.</span>
-                </h2>
-
-                <p>
-                    Every idea begins somewhere.
-                    This is where mine take shape.
-                </p>
-
-            </div>
-
-
-            <div class="universe-container">
-
-                <canvas id="universe-canvas" aria-label="Animated 3D digital universe"></canvas>
-
-                <div class="universe-overlay">
-
-                    <span>UNIVERSE_8070</span>
-
-                    <h3>
-                        A WORLD
-                        <br>
-                        IN PROGRESS.
-                    </h3>
-
-                    <p>
-                        Ideas become experiments.
-                        Experiments become systems.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =================================
-             04 — ARCHITECTURE / PROJECTS
-        ================================== -->
-
-        <section class="projects section" id="architecture">
-
-            <div class="section-heading">
-
-                <span class="section-number">
-                    03 / ARCHITECTURE
-                </span>
-
-                <h2>
-                    BUILT FROM
-                    <span>IMAGINATION.</span>
-                </h2>
-
-                <p>
-                    Projects, experiments and systems
-                    created along the journey.
-                </p>
-
-            </div>
-
-
-            <div class="project-grid">
-
-
-                <!-- PROJECT 001 -->
-
-                <article class="project-card">
-
-                    <div class="project-top">
-                        <span>PROJECT_001</span>
-                        <span class="project-status">LIVE</span>
-                    </div>
-
-                    <div class="project-visual oxy-visual">
-
-                        <div class="oxy-circle">O</div>
-
-                        <span>OXYNEURO</span>
-
-                    </div>
-
-                    <div class="project-info">
-
-                        <h3>OXYNEURO</h3>
-
-                        <p>
-                            An AI-powered digital assistant experiment
-                            built to explore intelligent interaction.
-                        </p>
-
-                        <div class="project-tags">
-                            <span>AI</span>
-                            <span>GEMINI</span>
-                            <span>WEB</span>
-                        </div>
-
-                        <a
-                            href="https://oxyneuro-hvscl6hqw-oxy7.vercel.app/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="project-link"
-                        >
-                            EXPLORE PROJECT ↗
-                        </a>
-
-                    </div>
-
-                </article>
-
-
-
-                <!-- PROJECT 002 -->
-
-                <article class="project-card">
-
-                    <div class="project-top">
-                        <span>PROJECT_002</span>
-                        <span class="project-status">DEVELOPING</span>
-                    </div>
-
-                    <div class="project-visual">
-
-                        <div class="visual-grid"></div>
-
-                        <span>ASIM.OS</span>
-
-                    </div>
-
-                    <div class="project-info">
-
-                        <h3>ASIM.OS // 8070</h3>
-
-                        <p>
-                            A futuristic personal portfolio
-                            evolving into an immersive digital experience.
-                        </p>
-
-                        <div class="project-tags">
-                            <span>THREE.JS</span>
-                            <span>HTML</span>
-                            <span>CSS</span>
-                        </div>
-
-                        <a href="#home" class="project-link">
-                            EXPLORE SYSTEM ↗
-                        </a>
-
-                    </div>
-
-                </article>
-
-
-
-                <!-- PROJECT 003 -->
-
-                <article class="project-card">
-
-                    <div class="project-top">
-                        <span>PROJECT_003</span>
-                        <span class="project-status">UPCOMING</span>
-                    </div>
-
-                    <div class="project-visual">
-
-                        <div class="future-symbol">∞</div>
-
-                        <span>UNKNOWN SYSTEM</span>
-
-                    </div>
-
-                    <div class="project-info">
-
-                        <h3>FUTURE PROJECT</h3>
-
-                        <p>
-                            New experiments, intelligent tools
-                            and unexplored ideas will appear here.
-                        </p>
-
-                        <div class="project-tags">
-                            <span>RESEARCH</span>
-                            <span>EXPERIMENT</span>
-                        </div>
-
-                        <a href="#contact" class="project-link">
-                            STAY CONNECTED ↗
-                        </a>
-
-                    </div>
-
-                </article>
-
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =================================
-             05 — LAB / SKILLS
-        ================================== -->
-
-        <section class="skills section" id="lab">
-
-            <div class="section-heading">
-
-                <span class="section-number">
-                    04 / THE LAB
-                </span>
-
-                <h2>
-                    LEARNING.
-                    <span>BUILDING. EVOLVING.</span>
-                </h2>
-
-                <p>
-                    Technologies and skills I am exploring
-                    as I build the next version of myself.
-                </p>
-
-            </div>
-
-
-            <div class="skills-grid">
-
-                <div class="skill-card">
-                    <span>01</span>
-                    <h3>PROGRAMMING</h3>
-                    <p>C · HTML · CSS · JavaScript</p>
-                </div>
-
-                <div class="skill-card">
-                    <span>02</span>
-                    <h3>INTELLIGENCE</h3>
-                    <p>AI · Machine Learning · Gemini API</p>
-                </div>
-
-                <div class="skill-card">
-                    <span>03</span>
-                    <h3>DESIGN</h3>
-                    <p>UI · UX · 3D Interfaces</p>
-                </div>
-
-                <div class="skill-card">
-                    <span>04</span>
-                    <h3>EXPLORATION</h3>
-                    <p>New technologies · Experiments</p>
-                </div>
-
-            </div>
-
-
-            <div class="lab-message">
-
-                <span class="status-dot"></span>
-
-                <p>
-                    SYSTEM UNDER CONTINUOUS DEVELOPMENT.
-                </p>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =================================
-             06 — CONTACT
-        ================================== -->
-
-        <section class="contact section" id="contact">
-
-            <div class="contact-content">
-
-                <span class="section-number">
-                    05 / CONNECTION TERMINAL
-                </span>
-
-                <h2>
-                    LET'S BUILD
-                    <span>SOMETHING UNEXPECTED.</span>
-                </h2>
-
-                <p>
-                    Have an idea, project or opportunity?
-                    Let's connect and create something meaningful.
-                </p>
-
-                <a
-                    href="mailto:your-email@example.com"
-                    class="btn btn-primary"
-                >
-                    INITIATE CONNECTION ↗
-                </a>
-
-            </div>
-
-
-            <div class="contact-orb">
-
-                <div class="orb-ring"></div>
-
-                <div class="orb-ring ring-two"></div>
-
-                <div class="orb-center"></div>
-
-            </div>
-
-        </section>
-
+        </footer>
 
     </main>
 
-
-
-    <!-- =====================================
-         FOOTER
-    ====================================== -->
-
-    <footer class="footer">
-
-        <div class="footer-logo">
-            ASIM.OS <span>// 8070</span>
-        </div>
-
-        <p>
-            DESIGNED TO EVOLVE. BUILT TO EXPLORE.
-        </p>
-
-        <span class="footer-copy">
-            © 2026 ASIM.OS — ALL SYSTEMS EVOLVING.
-        </span>
-
-    </footer>
-
-
-
-    <!-- =====================================
-         JAVASCRIPT ENGINE
-    ====================================== -->
-
-    <script type="module" src="script.js"></script>
+    <!-- JAVASCRIPT -->
+    <script src="js/main.js"></script>
 
 </body>
 </html>
